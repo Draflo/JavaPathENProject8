@@ -4,8 +4,10 @@ import static org.junit.Assert.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -20,6 +22,11 @@ import tourGuide.user.User;
 import tourGuide.user.UserReward;
 
 public class TestRewardsService {
+	
+	@Before
+	public void setUp() {
+		Locale.setDefault(new Locale("en", "US"));	
+	}
 
 	@Test
 	public void userGetRewards() {
@@ -46,7 +53,7 @@ public class TestRewardsService {
 		assertTrue(rewardsService.isWithinAttractionProximity(attraction, attraction));
 	}
 	
-	@Ignore // Needs fixed - can throw ConcurrentModificationException
+	
 	@Test
 	public void nearAllAttractions() {
 		GpsUtil gpsUtil = new GpsUtil();
