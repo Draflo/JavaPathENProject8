@@ -4,9 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
 import gpsUtil.GpsUtil;
@@ -20,6 +21,11 @@ import tourGuide.user.User;
 import tripPricer.Provider;
 
 public class TestTourGuideService {
+	
+	@Before
+	public void setUp() {
+		Locale.setDefault(new Locale("en", "US"));	
+	}
 
 	@Test
 	public void getUserLocation() {
@@ -92,7 +98,7 @@ public class TestTourGuideService {
 		assertEquals(user.getUserId(), visitedLocation.userId);
 	}
 	
-	@Ignore // Not yet implemented
+	
 	@Test
 	public void getNearbyAttractions() {
 		GpsUtil gpsUtil = new GpsUtil();
@@ -103,7 +109,7 @@ public class TestTourGuideService {
 		User user = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
 		VisitedLocation visitedLocation = tourGuideService.trackUserLocation(user);
 		
-		List<Attraction> attractions = tourGuideService.getNearByAttractions(visitedLocation);
+		List<Attraction> attractions = tourGuideService.getFiveNearestAttractions(visitedLocation);
 		
 		tourGuideService.tracker.stopTracking();
 		
