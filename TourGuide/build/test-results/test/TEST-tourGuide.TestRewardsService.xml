@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="tourGuide.TestRewardsService" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-02-04T11:11:52" hostname="Draflosword-Fixe" time="14.053">
+<testsuite name="tourGuide.TestRewardsService" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-03-10T18:10:58" hostname="Draflosword-Fixe" time="13.553">
   <properties/>
-  <testcase name="nearAllAttractions" classname="tourGuide.TestRewardsService" time="13.584"/>
-  <testcase name="userGetRewards" classname="tourGuide.TestRewardsService" time="0.448"/>
-  <testcase name="isWithinAttractionProximity" classname="tourGuide.TestRewardsService" time="0.02"/>
-  <system-out><![CDATA[12:11:52.518 [Test worker] INFO tourGuide.service.TourGuideService - TestMode enabled
-12:11:52.519 [Test worker] DEBUG tourGuide.service.TourGuideService - Initializing users
-12:11:52.519 [Test worker] DEBUG tourGuide.service.TourGuideService - Created 1 internal test users.
-12:11:52.519 [Test worker] DEBUG tourGuide.service.TourGuideService - Finished initializing users
-12:11:52.520 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 1 users.
-12:12:06.082 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 13 seconds.
-12:12:06.082 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
-12:12:06.101 [Test worker] INFO tourGuide.service.TourGuideService - TestMode enabled
-12:12:06.101 [Test worker] DEBUG tourGuide.service.TourGuideService - Initializing users
-12:12:06.102 [Test worker] DEBUG tourGuide.service.TourGuideService - Created 0 internal test users.
-12:12:06.102 [Test worker] DEBUG tourGuide.service.TourGuideService - Finished initializing users
-12:12:06.103 [pool-4-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 0 users.
-12:12:06.103 [pool-4-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
-12:12:06.103 [pool-4-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+  <testcase name="nearAllAttractions" classname="tourGuide.TestRewardsService" time="12.785"/>
+  <testcase name="userGetRewards" classname="tourGuide.TestRewardsService" time="0.749"/>
+  <testcase name="isWithinAttractionProximity" classname="tourGuide.TestRewardsService" time="0.018"/>
+  <system-out><![CDATA[19:10:58.989 [Test worker] INFO tourGuide.service.TourGuideService - TestMode enabled
+19:10:58.990 [Test worker] DEBUG tourGuide.service.TourGuideService - Initializing users
+19:10:58.990 [Test worker] DEBUG tourGuide.service.TourGuideService - Created 1 internal test users.
+19:10:58.990 [Test worker] DEBUG tourGuide.service.TourGuideService - Finished initializing users
+19:10:58.991 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 1 users.
+19:11:11.755 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 12 seconds.
+19:11:11.755 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+19:11:11.774 [Test worker] INFO tourGuide.service.TourGuideService - TestMode enabled
+19:11:11.774 [Test worker] DEBUG tourGuide.service.TourGuideService - Initializing users
+19:11:11.775 [Test worker] DEBUG tourGuide.service.TourGuideService - Created 0 internal test users.
+19:11:11.775 [Test worker] DEBUG tourGuide.service.TourGuideService - Finished initializing users
+19:11:11.777 [pool-4-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 0 users.
+19:11:11.777 [pool-4-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+19:11:11.778 [pool-4-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

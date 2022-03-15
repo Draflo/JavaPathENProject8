@@ -9,6 +9,7 @@ import tourGuide.service.RewardsService;
 
 @Configuration
 public class TourGuideModule {
+
 	
 	@Bean
 	public GpsUtil getGpsUtil() {

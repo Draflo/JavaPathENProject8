@@ -25,7 +25,7 @@ import tripPricer.Provider;
 <span class="nc" id="L25">        return &quot;Greetings from TourGuide!&quot;;</span>
     }
     
-    @RequestMapping(&quot;/getLocation&quot;) 
+    @RequestMapping(&quot;/getLocationTourguide&quot;) 
     public String getLocation(@RequestParam String userName) {
 <span class="nc" id="L30">    	VisitedLocation visitedLocation = tourGuideService.getUserLocation(getUser(userName));</span>
 <span class="nc" id="L31">		return JsonStream.serialize(visitedLocation.location);</span>
@@ -46,9 +46,14 @@ import tripPricer.Provider;
 <span class="nc" id="L46">    	return JsonStream.serialize(tourGuideService.getNearByAttractions(visitedLocation));</span>
     }
     
+    @RequestMapping(&quot;/getFiveAttractions&quot;)
+    public String getFiveAttractions(@RequestParam String userName) {
+<span class="nc" id="L51">    	return JsonStream.serialize(tourGuideService.getFiveNearestAttractions(getUser(userName)));</span>
+    }
+    
     @RequestMapping(&quot;/getRewards&quot;) 
     public String getRewards(@RequestParam String userName) {
-<span class="nc" id="L51">    	return JsonStream.serialize(tourGuideService.getUserRewards(getUser(userName)));</span>
+<span class="nc" id="L56">    	return JsonStream.serialize(tourGuideService.getUserRewards(getUser(userName)));</span>
     }
     
     @RequestMapping(&quot;/getAllCurrentLocations&quot;)
@@ -63,17 +68,17 @@ import tripPricer.Provider;
     	//        ...
     	//     }
     	
-<span class="nc" id="L66">    	return JsonStream.serialize(&quot;&quot;);</span>
+<span class="nc" id="L71">    	return JsonStream.serialize(&quot;&quot;);</span>
     }
     
     @RequestMapping(&quot;/getTripDeals&quot;)
     public String getTripDeals(@RequestParam String userName) {
-<span class="nc" id="L71">    	List&lt;Provider&gt; providers = tourGuideService.getTripDeals(getUser(userName));</span>
-<span class="nc" id="L72">    	return JsonStream.serialize(providers);</span>
+<span class="nc" id="L76">    	List&lt;Provider&gt; providers = tourGuideService.getTripDeals(getUser(userName));</span>
+<span class="nc" id="L77">    	return JsonStream.serialize(providers);</span>
     }
     
     private User getUser(String userName) {
-<span class="nc" id="L76">    	return tourGuideService.getUser(userName);</span>
+<span class="nc" id="L81">    	return tourGuideService.getUser(userName);</span>
     }
    
 
