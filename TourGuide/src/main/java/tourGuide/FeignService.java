@@ -2,10 +2,12 @@ package tourGuide;
 
 import java.util.List;
 
-import gpsUtil.location.Attraction;
+import tourGuide.classes.VisitedLocation;
 
 public interface FeignService {
 	
-	List<Attraction> getAllAttractions();
+	List<tourGuide.classes.Attraction> getAllAttractions();
+	
+	VisitedLocation getUserLocation(String userId);
 
 }

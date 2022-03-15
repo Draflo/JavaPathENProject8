@@ -5,9 +5,12 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -20,6 +23,7 @@ import gpsUtil.GpsUtil;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
+import tourGuide.classes.AttractionDTO;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.tracker.Tracker;
 import tourGuide.user.User;
@@ -90,7 +94,7 @@ public class TourGuideService {
 		return visitedLocation;
 	}
 
-	public List<Attraction> getNearByAttractions(VisitedLocation visitedLocation) {
+	public List<Attraction> getNearByAttractionsOld(VisitedLocation visitedLocation) {
 		List<Attraction> nearbyAttractions = new ArrayList<>();
 		for(Attraction attraction : gpsUtil.getAttractions()) {
 			if(rewardsService.isWithinAttractionProximity(attraction, visitedLocation.location)) {
@@ -99,6 +103,45 @@ public class TourGuideService {
 		}
 		
 		return nearbyAttractions;
+	}
+	
+	public List<Attraction> getFiveNearestAttractions(VisitedLocation userLocation) {
+		List<Attraction> attractions = new ArrayList<>();
+		SortedMap<Double, Attraction> map = new TreeMap<Double, Attraction>();
+		SortedMap<Double, Attraction> fiveAttractions = new TreeMap<Double, Attraction>();
+			for(Attraction attraction : gpsUtil.getAttractions()) {
+				Double distance = rewardsService.getDistance(userLocation.location, new Location(attraction.latitude, attraction.longitude));
+				map.put(distance, attraction);
+			}
+			Iterator<Double> iterator = map.keySet().iterator();
+			int i = 0;
+			while (i < 5 && iterator.hasNext()) {
+				Double distance = iterator.next();
+				Attraction attraction = map.get(distance);
+				fiveAttractions.put(distance, attraction);
+				i++;
+			}
+			fiveAttractions.forEach((distance, attraction) -> {
+				attractions.add(attraction);
+			});
+			
+		return attractions;
+		
+	}
+	
+	public List<AttractionDTO> getNearbyAttractions(User user) {
+		List<Attraction> fiveAttractions = getFiveNearestAttractions(user.getLastVisitedLocation());
+		List<AttractionDTO> attractionList = new ArrayList<AttractionDTO>();
+		fiveAttractions.forEach((attraction) -> {
+			AttractionDTO attractionDto = new AttractionDTO();
+			
+			attractionDto.setName(attraction.attractionName);
+			attractionDto.setLocation(new Location(attraction.latitude, attraction.longitude));
+			attractionDto.setUserLocation(user.getLastVisitedLocation().location);
+			attractionDto.setDistance(rewardsService.getDistance(user.getLastVisitedLocation().location, new Location(attraction.latitude, attraction.longitude)));
+//			attractionDto.setRewardPoint(rewardsService.getRewardPoints(attraction, user));
+		});
+		return attractionList;
 	}
 	
 	private void addShutDownHook() {

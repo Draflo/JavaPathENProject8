@@ -34,9 +34,11 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-actuator")
     
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.1.5.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.1.0.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: '2.0.4.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: '2.1.0.RELEASE'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.10.8'
+    
     
     
     compile group: 'org.javamoney', name: 'moneta', version: '1.3'

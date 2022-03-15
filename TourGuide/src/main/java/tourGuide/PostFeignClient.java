@@ -2,14 +2,19 @@ package tourGuide;
 
 import java.util.List;
 
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import gpsUtil.location.Attraction;
+import tourGuide.classes.VisitedLocation;
 
-@org.springframework.cloud.openfeign.FeignClient(name = "postFeignClient", url = "${http://localhost:8081}")
+@FeignClient(name = "postFeignClient", url = "http://localhost:8081")
 public interface PostFeignClient {
 	
 	@GetMapping("/getAllAttractions")
-	List<Attraction> getAllAttractions();
+	List<tourGuide.classes.Attraction> getAllAttractions();
+	
+	@GetMapping("/getLocation")
+	VisitedLocation getUserLocation(@RequestParam(name = "userId") String userId);
 
 }
