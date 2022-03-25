@@ -51,7 +51,7 @@ public class TourGuideController {
     	return JsonStream.serialize(tourGuideService.getNearbyAttractions(getUser(userName)));
     }
     
-    @RequestMapping("/getRewards") 
+    @RequestMapping("/getRewardsOld") 
     public String getRewards(@RequestParam String userName) {
     	return JsonStream.serialize(tourGuideService.getUserRewards(getUser(userName)));
     }
@@ -68,10 +68,10 @@ public class TourGuideController {
     	//        ...
     	//     }
     	
-    	return JsonStream.serialize("");
+    	return JsonStream.serialize(tourGuideService.getAllUserLastLocation());
     }
     
-    @RequestMapping("/getTripDeals")
+    @RequestMapping("/getTripDealsOld")
     public String getTripDeals(@RequestParam String userName) {
     	List<Provider> providers = tourGuideService.getTripDeals(getUser(userName));
     	return JsonStream.serialize(providers);

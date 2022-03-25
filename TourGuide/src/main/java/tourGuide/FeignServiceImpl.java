@@ -6,21 +6,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tourGuide.classes.VisitedLocation;
+import tourGuide.classes.Attraction;
+import tourGuide.classes.Provider;
 
 @Service
 public class FeignServiceImpl implements FeignService {
 	
 	@Autowired
-	private PostFeignClient feignClient;
+	private GPSUtilFeignClient gpsUtilFeignClient;
+	
+	@Autowired
+	private RewardsCentralFeignClient rewardsCentralFeignClient;
+	
+	@Autowired
+	private TripPricerFeignClient tripPricerFeignClient;
 	
 	@Override
-	public List<tourGuide.classes.Attraction> getAllAttractions() {
-		return feignClient.getAllAttractions();
+	public List<Attraction> getAllAttractions() {
+		return gpsUtilFeignClient.getAllAttractions();
 	}
 	
 	@Override
 	public VisitedLocation getUserLocation(String userId) {
-		return feignClient.getUserLocation(userId.toString());
+		return gpsUtilFeignClient.getUserLocation(userId.toString());
+	}
+
+	@Override
+	public Integer getRewards(String attractionId, String userId) {
+		return rewardsCentralFeignClient.getRewards(attractionId, userId);
+	}
+
+	@Override
+	public List<Provider> getTripDeals(String apiKey, String userId, 
+			 int numberOfAdult,  int numberOfChildren, 
+			 int tripDuration,  int cumulativeRewardPoints) {
+		return tripPricerFeignClient.getTripDeals(apiKey, userId, numberOfAdult, numberOfChildren, tripDuration, cumulativeRewardPoints);
 	}
 
 }
