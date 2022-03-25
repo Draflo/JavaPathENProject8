@@ -24,6 +24,7 @@ import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
 import tourGuide.classes.AttractionDTO;
+import tourGuide.classes.UserLastLocation;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.tracker.Tracker;
 import tourGuide.user.User;
@@ -142,6 +143,18 @@ public class TourGuideService {
 //			attractionDto.setRewardPoint(rewardsService.getRewardPoints(attraction, user));
 		});
 		return attractionList;
+	}
+	
+	public List<UserLastLocation> getAllUserLastLocation() {
+		List<UserLastLocation> listLastLocations = new ArrayList<>();
+		for(User user : getAllUsers()) {
+			UserLastLocation lastLocation = new UserLastLocation();
+			lastLocation.setUserId(user.getUserId().toString());
+			lastLocation.setLastLocation(user.getLastVisitedLocation().location);
+			listLastLocations.add(lastLocation);
+		}
+		
+		return listLastLocations;
 	}
 	
 	private void addShutDownHook() {

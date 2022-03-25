@@ -14,6 +14,7 @@ import gpsUtil.GpsUtil;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.VisitedLocation;
 import rewardCentral.RewardCentral;
+import tourGuide.classes.UserLastLocation;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.service.RewardsService;
 import tourGuide.service.TourGuideService;
@@ -114,6 +115,23 @@ public class TestTourGuideService {
 		tourGuideService.tracker.stopTracking();
 		
 		assertEquals(5, attractions.size());
+	}
+	
+	@Test
+	public void getAllCurrentLocations() {
+		GpsUtil gpsUtil = new GpsUtil();
+		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
+		InternalTestHelper.setInternalUserNumber(10);
+		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
+		
+		tourGuideService.tracker.stopTracking();
+		
+		List<UserLastLocation> lastLocations = tourGuideService.getAllUserLastLocation();
+		
+		assertEquals(10, lastLocations.size());
+		lastLocations.forEach((userLastLocation) -> assertTrue(userLastLocation.getLastLocation() != null));
+		
+		
 	}
 	
 	public void getTripDeals() {
