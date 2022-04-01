@@ -12,6 +12,10 @@ import java.util.Random;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -40,6 +44,7 @@ public class TourGuideService {
 	private final TripPricer tripPricer = new TripPricer();
 	public final Tracker tracker;
 	boolean testMode = true;
+	private final ExecutorService executorService = Executors.newFixedThreadPool(10000) ;
 	
 	public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
 		this.gpsUtil = gpsUtil;
@@ -60,9 +65,17 @@ public class TourGuideService {
 	}
 	
 	public VisitedLocation getUserLocation(User user) {
-		VisitedLocation visitedLocation = (user.getVisitedLocations().size() > 0) ?
-			user.getLastVisitedLocation() :
-			trackUserLocation(user);
+		VisitedLocation visitedLocation = null;
+		try {
+			if(user.getVisitedLocations().size() > 0) {
+				visitedLocation = user.getLastVisitedLocation();
+			} 
+			else {
+				visitedLocation = trackUserLocation(user).get();	
+			}}
+		catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
 		return visitedLocation;
 	}
 	
@@ -88,11 +101,15 @@ public class TourGuideService {
 		return providers;
 	}
 	
-	public VisitedLocation trackUserLocation(User user) {
+	public Future<VisitedLocation> trackUserLocation(User user) {
+		Future<VisitedLocation> future = executorService.submit(() -> {
 		VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
 		user.addToVisitedLocations(visitedLocation);
 		rewardsService.calculateRewards(user);
 		return visitedLocation;
+		});
+		
+		return future;
 	}
 
 	public List<Attraction> getNearByAttractionsOld(VisitedLocation visitedLocation) {
@@ -140,7 +157,7 @@ public class TourGuideService {
 			attractionDto.setLocation(new Location(attraction.latitude, attraction.longitude));
 			attractionDto.setUserLocation(user.getLastVisitedLocation().location);
 			attractionDto.setDistance(rewardsService.getDistance(user.getLastVisitedLocation().location, new Location(attraction.latitude, attraction.longitude)));
-//			attractionDto.setRewardPoint(rewardsService.getRewardPoints(attraction, user));
+			attractionDto.setRewardPoint(rewardsService.getRewardPoints(attraction, user));
 		});
 		return attractionList;
 	}
@@ -207,6 +224,10 @@ public class TourGuideService {
 	private Date getRandomTime() {
 		LocalDateTime localDateTime = LocalDateTime.now().minusDays(new Random().nextInt(30));
 	    return Date.from(localDateTime.toInstant(ZoneOffset.UTC));
+	}
+
+	public ExecutorService getExecutorService() {
+		return executorService;
 	}
 	
 }

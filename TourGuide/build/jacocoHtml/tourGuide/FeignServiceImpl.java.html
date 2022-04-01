@@ -6,21 +6,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tourGuide.classes.VisitedLocation;
+import tourGuide.classes.Attraction;
+import tourGuide.classes.Provider;
 
 @Service
-<span class="nc" id="L11">public class FeignServiceImpl implements FeignService {</span>
+<span class="nc" id="L13">public class FeignServiceImpl implements FeignService {</span>
 	
 	@Autowired
-	private PostFeignClient feignClient;
+	private GPSUtilFeignClient gpsUtilFeignClient;
+	
+	@Autowired
+	private RewardsCentralFeignClient rewardsCentralFeignClient;
+	
+	@Autowired
+	private TripPricerFeignClient tripPricerFeignClient;
 	
 	@Override
-	public List&lt;tourGuide.classes.Attraction&gt; getAllAttractions() {
-<span class="nc" id="L18">		return feignClient.getAllAttractions();</span>
+	public List&lt;Attraction&gt; getAllAttractions() {
+<span class="nc" id="L26">		return gpsUtilFeignClient.getAllAttractions();</span>
 	}
 	
 	@Override
 	public VisitedLocation getUserLocation(String userId) {
-<span class="nc" id="L23">		return feignClient.getUserLocation(userId.toString());</span>
+<span class="nc" id="L31">		return gpsUtilFeignClient.getUserLocation(userId.toString());</span>
+	}
+
+	@Override
+	public Integer getRewards(String attractionId, String userId) {
+<span class="nc" id="L36">		return rewardsCentralFeignClient.getRewards(attractionId, userId);</span>
+	}
+
+	@Override
+	public List&lt;Provider&gt; getTripDeals(String apiKey, String userId, 
+			 int numberOfAdult,  int numberOfChildren, 
+			 int tripDuration,  int cumulativeRewardPoints) {
+<span class="nc" id="L43">		return tripPricerFeignClient.getTripDeals(apiKey, userId, numberOfAdult, numberOfChildren, tripDuration, cumulativeRewardPoints);</span>
 	}
 
 }

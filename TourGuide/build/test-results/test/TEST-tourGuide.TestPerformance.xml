@@ -1,26 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="tourGuide.TestPerformance" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-03-10T18:10:01" hostname="Draflosword-Fixe" time="57.093">
+<testsuite name="tourGuide.TestPerformance" tests="2" skipped="0" failures="1" errors="0" timestamp="2022-03-31T13:10:31" hostname="Draflosword-Fixe" time="5115.235">
   <properties/>
-  <testcase name="highVolumeTrackLocation" classname="tourGuide.TestPerformance" time="8.16"/>
-  <testcase name="highVolumeGetRewards" classname="tourGuide.TestPerformance" time="48.933"/>
-  <system-out><![CDATA[19:10:02.124 [Test worker] INFO tourGuide.service.TourGuideService - TestMode enabled
-19:10:02.140 [Test worker] DEBUG tourGuide.service.TourGuideService - Initializing users
-19:10:02.297 [Test worker] DEBUG tourGuide.service.TourGuideService - Created 100 internal test users.
-19:10:02.297 [Test worker] DEBUG tourGuide.service.TourGuideService - Finished initializing users
-19:10:02.316 [pool-1-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100 users.
-19:10:09.966 [pool-1-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 7 seconds.
-19:10:09.967 [pool-1-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
-highVolumeTrackLocation: Time Elapsed: 7 seconds.
-19:10:10.051 [Test worker] INFO tourGuide.service.TourGuideService - TestMode enabled
-19:10:10.051 [Test worker] DEBUG tourGuide.service.TourGuideService - Initializing users
-19:10:10.087 [Test worker] DEBUG tourGuide.service.TourGuideService - Created 100 internal test users.
-19:10:10.088 [Test worker] DEBUG tourGuide.service.TourGuideService - Finished initializing users
-19:10:10.091 [pool-2-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100 users.
-highVolumeGetRewards: Time Elapsed: 48 seconds.
-19:10:58.983 [pool-2-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 48 seconds.
-19:10:58.983 [pool-2-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+  <testcase name="highVolumeTrackLocation" classname="tourGuide.TestPerformance" time="402.074"/>
+  <testcase name="highVolumeGetRewards" classname="tourGuide.TestPerformance" time="4713.161">
+    <failure message="java.lang.AssertionError" type="java.lang.AssertionError">java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:86)
+	at org.junit.Assert.assertTrue(Assert.java:41)
+	at org.junit.Assert.assertTrue(Assert.java:52)
+	at tourGuide.TestPerformance.highVolumeGetRewards(TestPerformance.java:111)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:106)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:66)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy4.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:567)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:155)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:137)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:404)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:63)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:46)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:55)
+	at java.base/java.lang.Thread.run(Thread.java:830)
+</failure>
+  </testcase>
+  <system-out><![CDATA[15:10:31.909 [Test worker] INFO tourGuide.service.TourGuideService - TestMode enabled
+15:10:31.963 [Test worker] DEBUG tourGuide.service.TourGuideService - Initializing users
+15:10:34.459 [Test worker] DEBUG tourGuide.service.TourGuideService - Created 100000 internal test users.
+15:10:34.460 [Test worker] DEBUG tourGuide.service.TourGuideService - Finished initializing users
+15:10:34.522 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+15:10:37.362 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 2 seconds.
+15:10:37.362 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+15:15:37.368 [pool-3-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+highVolumeTrackLocation: Time Elapsed: 399 seconds.
+15:17:13.613 [Test worker] INFO tourGuide.service.TourGuideService - TestMode enabled
+15:17:13.614 [Test worker] DEBUG tourGuide.service.TourGuideService - Initializing users
+15:17:14.169 [Test worker] DEBUG tourGuide.service.TourGuideService - Created 100000 internal test users.
+15:17:14.169 [Test worker] DEBUG tourGuide.service.TourGuideService - Finished initializing users
+15:17:14.179 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+15:17:16.460 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 2 seconds.
+15:17:16.461 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+15:22:16.466 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+15:22:16.484 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+15:22:16.484 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+15:27:16.493 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+15:27:16.517 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+15:27:16.517 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+15:32:16.524 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+15:32:16.550 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+15:32:16.553 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+15:37:16.560 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+15:37:16.586 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+15:37:16.587 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+15:42:16.594 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+15:42:16.610 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+15:42:16.610 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+15:47:16.614 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+15:47:16.631 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+15:47:16.631 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+15:52:16.637 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+15:52:16.656 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+15:52:16.656 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+15:57:16.660 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+15:57:16.675 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+15:57:16.677 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+16:02:16.681 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+16:02:16.697 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+16:02:16.697 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+16:07:16.703 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+16:07:16.719 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+16:07:16.719 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+16:12:16.726 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+16:12:16.747 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+16:12:16.748 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+16:17:16.762 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+16:17:16.783 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+16:17:16.783 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+16:22:16.789 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+16:22:16.807 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+16:22:16.807 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+16:27:16.812 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+16:27:16.842 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+16:27:16.851 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+16:32:16.858 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Begin Tracker. Tracking 100000 users.
+16:32:16.876 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker Time Elapsed: 0 seconds.
+16:32:16.876 [pool-6-thread-1] DEBUG tourGuide.tracker.Tracker - Tracker sleeping
+highVolumeGetRewards: Time Elapsed: 4713 seconds.
 ]]></system-out>
-  <system-err><![CDATA[Mar 10, 2022 7:10:02 PM org.javamoney.moneta.DefaultMonetaryContextFactory createMonetaryContextNonNullConfig
+  <system-err><![CDATA[Mar 31, 2022 3:10:32 PM org.javamoney.moneta.DefaultMonetaryContextFactory createMonetaryContextNonNullConfig
 INFO: Using custom MathContext: precision=256, roundingMode=HALF_EVEN
 ]]></system-err>
 </testsuite>
