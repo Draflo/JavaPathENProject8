@@ -43,7 +43,6 @@ public class RewardsService {
 		List<VisitedLocation> userLocations = user.getVisitedLocations();
 		List<Attraction> attractions = gpsUtil.getAttractions();
 		
-	synchronized(userLocations) {
 		
 		for(VisitedLocation visitedLocation : userLocations) {
 			for(Attraction attraction : attractions) {
@@ -56,7 +55,6 @@ public class RewardsService {
 				}
 			}
 		}
-	}
 	}
 	
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
