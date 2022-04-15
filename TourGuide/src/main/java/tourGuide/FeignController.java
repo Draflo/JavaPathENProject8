@@ -24,17 +24,17 @@ public class FeignController {
 		return feignService.getAllAttractions();
 	}
 	
-	@GetMapping("/getLocation")
+	@GetMapping("/getLocationF")
 	public VisitedLocation getUserLocation(String userId) {
 		return feignService.getUserLocation(userId);
 	}
 	
-	@GetMapping("/getRewards")
+	@GetMapping("/getRewardsF")
 	public Integer getRewards(@RequestParam(name = "attractionId") String attractionId, @RequestParam(name = "userId") String userId) {
 		return feignService.getRewards(attractionId, userId);
 	}
 	
-	@GetMapping("/getTripDeals")
+	@GetMapping("/getTripDealsF")
 	public List<Provider> getTripDeals(@RequestParam(name = "apiKey") String apiKey, @RequestParam(name = "userId") String userId, 
 			@RequestParam(name = "numberOfAdult") int numberOfAdult, @RequestParam(name = "numberOfChildren") int numberOfChildren, 
 			@RequestParam(name = "tripDuration") int tripDuration, @RequestParam(name = "cumulativeRewardPoints") int cumulativeRewardPoints) {

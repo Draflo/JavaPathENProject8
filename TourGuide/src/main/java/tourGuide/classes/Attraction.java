@@ -2,14 +2,14 @@ package tourGuide.classes;
 
 import java.util.UUID;
 
-public class Attraction {
+public class Attraction  {
 
-	private Double latitude;
-	private Double longitude;
-	private String attractionName;
+	public Double latitude;
+	public Double longitude;
+	public String attractionName;
 	private String city;
 	private String state;
-	private UUID attractionId;
+	public UUID attractionId;
 
 	public Attraction() {
 		

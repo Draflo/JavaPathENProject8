@@ -12,11 +12,13 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.cloud.openfeign.support.SpringMvcContract;
 
-import gpsUtil.GpsUtil;
-import gpsUtil.location.Attraction;
-import gpsUtil.location.VisitedLocation;
-import rewardCentral.RewardCentral;
+import feign.Feign;
+import feign.gson.GsonDecoder;
+import tourGuide.classes.Attraction;
+import tourGuide.classes.Location;
+import tourGuide.classes.VisitedLocation;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.service.RewardsService;
 import tourGuide.service.TourGuideService;
@@ -25,22 +27,27 @@ import tourGuide.user.UserReward;
 
 public class TestRewardsService {
 	
+	private GPSUtilFeignClient gpsUtilFeignClient;
+	private RewardsService rewardsService;
+	
 	@Before
 	public void setUp() {
-		Locale.setDefault(new Locale("en", "US"));	
+		Locale.setDefault(new Locale("en", "US"));
+		
+		gpsUtilFeignClient = Feign.builder().contract(new SpringMvcContract()).decoder(new GsonDecoder()).target(tourGuide.GPSUtilFeignClient.class, "http://localhost:8081");
+		rewardsService = new RewardsService(gpsUtilFeignClient, Feign.builder().contract(new SpringMvcContract()).decoder(new GsonDecoder()).target(tourGuide.RewardsCentralFeignClient.class, "http://localhost:8082"));
 	}
 
 	@Test
 	public void userGetRewards() throws InterruptedException {
-		GpsUtil gpsUtil = new GpsUtil();
-		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
-
+		
 		InternalTestHelper.setInternalUserNumber(0);
-		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
+		TourGuideService tourGuideService = new TourGuideService(gpsUtilFeignClient, rewardsService);
 		
 		User user = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
-		Attraction attraction = gpsUtil.getAttractions().get(0);
-		user.addToVisitedLocations(new VisitedLocation(user.getUserId(), attraction, new Date()));
+		Attraction attraction = gpsUtilFeignClient.getAllAttractions().get(0);
+	    Location attractionLocation = new Location(attraction.latitude, attraction.longitude);
+		user.addToVisitedLocations(new VisitedLocation(user.getUserId(), attractionLocation, new Date()));
 		tourGuideService.trackUserLocation(user);
 		
 		ExecutorService tourGuideExecutorService = tourGuideService.getExecutorService();
@@ -59,21 +66,18 @@ public class TestRewardsService {
 	
 	@Test
 	public void isWithinAttractionProximity() {
-		GpsUtil gpsUtil = new GpsUtil();
-		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
-		Attraction attraction = gpsUtil.getAttractions().get(0);
-		assertTrue(rewardsService.isWithinAttractionProximity(attraction, attraction));
+		Attraction attraction = gpsUtilFeignClient.getAllAttractions().get(0);
+	    Location attractionLocation = new Location(attraction.latitude, attraction.longitude);
+		assertTrue(rewardsService.isWithinAttractionProximity(attraction, attractionLocation));
 	}
 	
 	
 	@Test
 	public void nearAllAttractions() throws InterruptedException {
-		GpsUtil gpsUtil = new GpsUtil();
-		RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
 		rewardsService.setProximityBuffer(Integer.MAX_VALUE);
 
 		InternalTestHelper.setInternalUserNumber(1);
-		TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
+		TourGuideService tourGuideService = new TourGuideService(gpsUtilFeignClient, rewardsService);
 		
 		rewardsService.calculateRewards(tourGuideService.getAllUsers().get(0));
 		
@@ -84,7 +88,7 @@ public class TestRewardsService {
 		List<UserReward> userRewards = tourGuideService.getUserRewards(tourGuideService.getAllUsers().get(0));
 		tourGuideService.tracker.stopTracking();
 
-		assertEquals(gpsUtil.getAttractions().size(), userRewards.size());
+		assertEquals(gpsUtilFeignClient.getAllAttractions().size(), userRewards.size());
 	}
 	
 }

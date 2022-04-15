@@ -2,10 +2,12 @@ package tourGuide.classes;
 
 public class Location {
 	
-	private Double longitude;
-	private Double latitude;
+	public Double longitude;
+	public Double latitude;
 
-    public Location() {
+    public Location(Double latitude, Double longitude) {
+    	this.latitude = latitude;
+    	this.longitude = longitude;
        
     }
     

@@ -6,11 +6,11 @@ import java.util.concurrent.Executors;
 
 import org.springframework.stereotype.Service;
 
-import gpsUtil.GpsUtil;
-import gpsUtil.location.Attraction;
-import gpsUtil.location.Location;
-import gpsUtil.location.VisitedLocation;
-import rewardCentral.RewardCentral;
+import tourGuide.classes.Attraction;
+import tourGuide.classes.Location;
+import tourGuide.classes.VisitedLocation;
+import tourGuide.GPSUtilFeignClient;
+import tourGuide.RewardsCentralFeignClient;
 import tourGuide.user.User;
 import tourGuide.user.UserReward;
 
@@ -22,11 +22,11 @@ public class RewardsService {
     private int defaultProximityBuffer = 10;
 	private int proximityBuffer = defaultProximityBuffer;
 	private int attractionProximityRange = 200;
-	private final GpsUtil gpsUtil;
-	private final RewardCentral rewardsCentral;
+	private final GPSUtilFeignClient gpsUtil;
+	private final RewardsCentralFeignClient rewardsCentral;
 	private final ExecutorService executorService = Executors.newFixedThreadPool(10000);
 	
-	public RewardsService(GpsUtil gpsUtil, RewardCentral rewardCentral) {
+	public RewardsService(GPSUtilFeignClient gpsUtil, RewardsCentralFeignClient rewardCentral) {
 		this.gpsUtil = gpsUtil;
 		this.rewardsCentral = rewardCentral;
 	}
@@ -41,7 +41,7 @@ public class RewardsService {
 	
 	public void calculateRewards(User user) {
 		List<VisitedLocation> userLocations = user.getVisitedLocations();
-		List<Attraction> attractions = gpsUtil.getAttractions();
+		List<Attraction> attractions = gpsUtil.getAllAttractions();
 		
 		
 		for(VisitedLocation visitedLocation : userLocations) {
@@ -58,15 +58,17 @@ public class RewardsService {
 	}
 	
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {
-		return getDistance(attraction, location) > attractionProximityRange ? false : true;
+		Location attractionLocation = new Location(attraction.getLatitude(), attraction.getLongitude());
+		return getDistance(attractionLocation, location) > attractionProximityRange ? false : true;
 	}
 	
 	private boolean nearAttraction(VisitedLocation visitedLocation, Attraction attraction) {
-		return getDistance(attraction, visitedLocation.location) > proximityBuffer ? false : true;
+		Location attractionLocation = new Location(attraction.getLatitude(), attraction.getLongitude());
+		return getDistance(attractionLocation, visitedLocation.location) > proximityBuffer ? false : true;
 	}
 	
 	int getRewardPoints(Attraction attraction, User user) {
-		return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());
+		return rewardsCentral.getRewards(attraction.attractionId.toString(), user.getUserId().toString());
 	}
 	
 	public double getDistance(Location loc1, Location loc2) {

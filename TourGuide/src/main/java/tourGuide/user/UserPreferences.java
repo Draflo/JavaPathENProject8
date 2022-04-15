@@ -5,6 +5,8 @@ import javax.money.Monetary;
 
 import org.javamoney.moneta.Money;
 
+import tourGuide.classes.UserPreferencesDTO;
+
 
 public class UserPreferences {
 	
@@ -74,6 +76,63 @@ public class UserPreferences {
 
 	public void setNumberOfChildren(int numberOfChildren) {
 		this.numberOfChildren = numberOfChildren;
+	}
+	
+	public CurrencyUnit getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(CurrencyUnit currency) {
+		this.currency = currency;
+	}
+	
+	
+	public void mapTo(UserPreferencesDTO userPreferencesDTO, String userName) {
+		userPreferencesDTO.setUserName(userName);
+		userPreferencesDTO.setCurrency(currency.getCurrencyCode());
+		userPreferencesDTO.setAttractionProximity(attractionProximity);
+		userPreferencesDTO.setHighPricePoint(highPricePoint.getNumber().doubleValue());
+		userPreferencesDTO.setLowerPricePoint(lowerPricePoint.getNumber().doubleValue());
+		userPreferencesDTO.setNumberOfAdults(numberOfAdults);
+		userPreferencesDTO.setNumberOfChildren(numberOfChildren);
+		userPreferencesDTO.setTicketQuantity(ticketQuantity);
+		userPreferencesDTO.setTripDuration(tripDuration);
+		
+	}
+	
+	public void mapFrom(UserPreferencesDTO dto)
+	{
+		if(dto.getCurrency() != null) {
+			setCurrency(Monetary.getCurrency(dto.getCurrency()));
+		}
+		
+		if(dto.getAttractionProximity() != null) {
+			setAttractionProximity(dto.getAttractionProximity());
+		}
+		
+		if(dto.getHighPricePoint() != null) {
+			setHighPricePoint(Money.of(dto.getHighPricePoint(), currency));
+		}
+		
+		if(dto.getLowerPricePoint() != null) {
+			setLowerPricePoint(Money.of(dto.getLowerPricePoint(), currency));
+		}
+		
+		if(dto.getNumberOfAdults() != null) {
+			setNumberOfAdults(dto.getNumberOfAdults());
+		}
+		
+		if(dto.getNumberOfChildren() != null) {
+			setNumberOfChildren(dto.getNumberOfChildren());
+		}
+		
+		if(dto.getTicketQuantity() != null) {
+			setTicketQuantity(dto.getTicketQuantity());
+		}
+		
+		if(dto.getTripDuration() != null) {
+			setTripDuration(dto.getTripDuration());
+		}
 	}
 
 }

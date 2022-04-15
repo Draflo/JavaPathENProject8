@@ -23,12 +23,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import gpsUtil.GpsUtil;
-import gpsUtil.location.Attraction;
-import gpsUtil.location.Location;
-import gpsUtil.location.VisitedLocation;
+import tourGuide.GPSUtilFeignClient;
+import tourGuide.classes.Attraction;
 import tourGuide.classes.AttractionDTO;
+import tourGuide.classes.Location;
 import tourGuide.classes.UserLastLocation;
+import tourGuide.classes.VisitedLocation;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.tracker.Tracker;
 import tourGuide.user.User;
@@ -39,14 +39,14 @@ import tripPricer.TripPricer;
 @Service
 public class TourGuideService {
 	private Logger logger = LoggerFactory.getLogger(TourGuideService.class);
-	private final GpsUtil gpsUtil;
+	private final GPSUtilFeignClient gpsUtil;
 	private final RewardsService rewardsService;
 	private final TripPricer tripPricer = new TripPricer();
 	public final Tracker tracker;
 	boolean testMode = true;
 	private final ExecutorService executorService = Executors.newFixedThreadPool(10000) ;
 	
-	public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
+	public TourGuideService(GPSUtilFeignClient gpsUtil, RewardsService rewardsService) {
 		this.gpsUtil = gpsUtil;
 		this.rewardsService = rewardsService;
 		
@@ -103,7 +103,7 @@ public class TourGuideService {
 	
 	public Future<VisitedLocation> trackUserLocation(User user) {
 		Future<VisitedLocation> future = executorService.submit(() -> {
-		VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
+		VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId().toString());
 		user.addToVisitedLocations(visitedLocation);
 		rewardsService.calculateRewards(user);
 		return visitedLocation;
@@ -114,7 +114,7 @@ public class TourGuideService {
 
 	public List<Attraction> getNearByAttractionsOld(VisitedLocation visitedLocation) {
 		List<Attraction> nearbyAttractions = new ArrayList<>();
-		for(Attraction attraction : gpsUtil.getAttractions()) {
+		for(Attraction attraction : gpsUtil.getAllAttractions()) {
 			if(rewardsService.isWithinAttractionProximity(attraction, visitedLocation.location)) {
 				nearbyAttractions.add(attraction);
 			}
@@ -127,7 +127,7 @@ public class TourGuideService {
 		List<Attraction> attractions = new ArrayList<>();
 		SortedMap<Double, Attraction> map = new TreeMap<Double, Attraction>();
 		SortedMap<Double, Attraction> fiveAttractions = new TreeMap<Double, Attraction>();
-			for(Attraction attraction : gpsUtil.getAttractions()) {
+			for(Attraction attraction : gpsUtil.getAllAttractions()) {
 				Double distance = rewardsService.getDistance(userLocation.location, new Location(attraction.latitude, attraction.longitude));
 				map.put(distance, attraction);
 			}
