@@ -5,15 +5,21 @@ import java.util.UUID;
 
 public class VisitedLocation {
 	
-	private UUID userId;
-	private Location location;
+	public UUID userId;
+	public Location location;
     private Date timeVisited;
 
     public VisitedLocation() {
         
     }
     
-    public UUID getUserId() {
+    public VisitedLocation(UUID userId, Location location, Date timeVisited) {
+		this.userId = userId;
+		this.location = location;
+		this.timeVisited = timeVisited;
+	}
+
+	public UUID getUserId() {
 		return userId;
 	}
 

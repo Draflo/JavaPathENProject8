@@ -2,13 +2,31 @@
 
 public class Location {
 	
-	public final double longitude;
-    public final double latitude;
+	public Double longitude;
+	public Double latitude;
 
-<span class="nc" id="L8">    public Location(double latitude, double longitude) {</span>
-<span class="nc" id="L9">        this.latitude = latitude;</span>
-<span class="nc" id="L10">        this.longitude = longitude;</span>
-<span class="nc" id="L11">    }</span>
+<span class="fc" id="L8">    public Location(Double latitude, Double longitude) {</span>
+<span class="fc" id="L9">    	this.latitude = latitude;</span>
+<span class="fc" id="L10">    	this.longitude = longitude;</span>
+       
+<span class="fc" id="L12">    }</span>
+    
+    public Double getLongitude() {
+<span class="fc" id="L15">		return longitude;</span>
+	}
+
+	public void setLongitude(Double longitude) {
+<span class="nc" id="L19">		this.longitude = longitude;</span>
+<span class="nc" id="L20">	}</span>
+
+	public Double getLatitude() {
+<span class="fc" id="L23">		return latitude;</span>
+	}
+
+	public void setLatitude(Double latitude) {
+<span class="nc" id="L27">		this.latitude = latitude;</span>
+<span class="nc" id="L28">	}</span>
+
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

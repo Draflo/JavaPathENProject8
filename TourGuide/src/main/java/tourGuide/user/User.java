@@ -5,9 +5,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import gpsUtil.location.VisitedLocation;
-import tripPricer.Provider;
+import tourGuide.classes.VisitedLocation;
+import tourGuide.classes.Provider;
 
 public class User {
 	private final UUID userId;
@@ -15,8 +16,8 @@ public class User {
 	private String phoneNumber;
 	private String emailAddress;
 	private Date latestLocationTimestamp;
-	private List<VisitedLocation> visitedLocations = Collections.synchronizedList(new ArrayList<>());
-	private List<UserReward> userRewards = new ArrayList<>();
+	private List<VisitedLocation> visitedLocations = new CopyOnWriteArrayList<>();
+	private List<UserReward> userRewards = Collections.synchronizedList(new ArrayList<>());
 	private UserPreferences userPreferences = new UserPreferences();
 	private List<Provider> tripDeals = new ArrayList<>();
 	public User(UUID userId, String userName, String phoneNumber, String emailAddress) {
