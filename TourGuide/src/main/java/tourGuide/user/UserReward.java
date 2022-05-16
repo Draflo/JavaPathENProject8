@@ -1,7 +1,7 @@
 package tourGuide.user;
 
-import gpsUtil.location.Attraction;
-import gpsUtil.location.VisitedLocation;
+import tourGuide.classes.Attraction;
+import tourGuide.classes.VisitedLocation;
 
 public class UserReward {
 

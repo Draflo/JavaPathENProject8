@@ -1,7 +1,5 @@
 package tourGuide.classes;
 
-import gpsUtil.location.Location;
-
 public class UserLastLocation {
 	
 	private String userId;

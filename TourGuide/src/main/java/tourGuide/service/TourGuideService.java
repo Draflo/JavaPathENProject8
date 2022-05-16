@@ -12,36 +12,45 @@ import java.util.Random;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import gpsUtil.GpsUtil;
-import gpsUtil.location.Attraction;
-import gpsUtil.location.Location;
-import gpsUtil.location.VisitedLocation;
+import tourGuide.GPSUtilFeignClient;
+import tourGuide.TripPricerFeignClient;
+import tourGuide.classes.Attraction;
 import tourGuide.classes.AttractionDTO;
+import tourGuide.classes.Location;
+import tourGuide.classes.Provider;
 import tourGuide.classes.UserLastLocation;
+import tourGuide.classes.VisitedLocation;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.tracker.Tracker;
 import tourGuide.user.User;
 import tourGuide.user.UserReward;
-import tripPricer.Provider;
-import tripPricer.TripPricer;
 
 @Service
 public class TourGuideService {
 	private Logger logger = LoggerFactory.getLogger(TourGuideService.class);
-	private final GpsUtil gpsUtil;
+	private final GPSUtilFeignClient gpsUtil;
 	private final RewardsService rewardsService;
-	private final TripPricer tripPricer = new TripPricer();
 	public final Tracker tracker;
 	boolean testMode = true;
+	private final ExecutorService executorService = Executors.newFixedThreadPool(200);
 	
-	public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
+	@Autowired
+	private TripPricerFeignClient tripPricer;
+	
+	public TourGuideService(GPSUtilFeignClient gpsUtil, RewardsService rewardsService) {
 		this.gpsUtil = gpsUtil;
 		this.rewardsService = rewardsService;
 		
@@ -60,9 +69,17 @@ public class TourGuideService {
 	}
 	
 	public VisitedLocation getUserLocation(User user) {
-		VisitedLocation visitedLocation = (user.getVisitedLocations().size() > 0) ?
-			user.getLastVisitedLocation() :
-			trackUserLocation(user);
+		VisitedLocation visitedLocation = null;
+		try {
+			if(user.getVisitedLocations().size() > 0) {
+				visitedLocation = user.getLastVisitedLocation();
+			} 
+			else {
+				visitedLocation = trackUserLocation(user).get();	
+			}}
+		catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
 		return visitedLocation;
 	}
 	
@@ -82,22 +99,26 @@ public class TourGuideService {
 	
 	public List<Provider> getTripDeals(User user) {
 		int cumulatativeRewardPoints = user.getUserRewards().stream().mapToInt(i -> i.getRewardPoints()).sum();
-		List<Provider> providers = tripPricer.getPrice(tripPricerApiKey, user.getUserId(), user.getUserPreferences().getNumberOfAdults(), 
+		List<Provider> providers = tripPricer.getTripDeals(tripPricerApiKey, user.getUserId().toString(), user.getUserPreferences().getNumberOfAdults(), 
 				user.getUserPreferences().getNumberOfChildren(), user.getUserPreferences().getTripDuration(), cumulatativeRewardPoints);
 		user.setTripDeals(providers);
 		return providers;
 	}
 	
-	public VisitedLocation trackUserLocation(User user) {
-		VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
+	public Future<VisitedLocation> trackUserLocation(User user) {
+		Future<VisitedLocation> future = executorService.submit(() -> {
+		VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId().toString());
 		user.addToVisitedLocations(visitedLocation);
 		rewardsService.calculateRewards(user);
 		return visitedLocation;
+		});
+		
+		return future;
 	}
 
 	public List<Attraction> getNearByAttractionsOld(VisitedLocation visitedLocation) {
 		List<Attraction> nearbyAttractions = new ArrayList<>();
-		for(Attraction attraction : gpsUtil.getAttractions()) {
+		for(Attraction attraction : gpsUtil.getAllAttractions()) {
 			if(rewardsService.isWithinAttractionProximity(attraction, visitedLocation.location)) {
 				nearbyAttractions.add(attraction);
 			}
@@ -110,7 +131,7 @@ public class TourGuideService {
 		List<Attraction> attractions = new ArrayList<>();
 		SortedMap<Double, Attraction> map = new TreeMap<Double, Attraction>();
 		SortedMap<Double, Attraction> fiveAttractions = new TreeMap<Double, Attraction>();
-			for(Attraction attraction : gpsUtil.getAttractions()) {
+			for(Attraction attraction : gpsUtil.getAllAttractions()) {
 				Double distance = rewardsService.getDistance(userLocation.location, new Location(attraction.latitude, attraction.longitude));
 				map.put(distance, attraction);
 			}
@@ -140,7 +161,7 @@ public class TourGuideService {
 			attractionDto.setLocation(new Location(attraction.latitude, attraction.longitude));
 			attractionDto.setUserLocation(user.getLastVisitedLocation().location);
 			attractionDto.setDistance(rewardsService.getDistance(user.getLastVisitedLocation().location, new Location(attraction.latitude, attraction.longitude)));
-//			attractionDto.setRewardPoint(rewardsService.getRewardPoints(attraction, user));
+			attractionDto.setRewardPoint(rewardsService.getRewardPoints(attraction, user));
 		});
 		return attractionList;
 	}
@@ -155,6 +176,21 @@ public class TourGuideService {
 		}
 		
 		return listLastLocations;
+	}
+	
+	public void bulkCalculateReward(List<User> users) {
+		ExecutorService executorService = Executors.newFixedThreadPool(100);
+		users.forEach(user -> 
+		executorService.submit(new Thread(() -> rewardsService.calculateRewards(user))));
+		
+		executorService.shutdown();
+		try {
+			executorService.awaitTermination(20, TimeUnit.MINUTES);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private void addShutDownHook() {
@@ -207,6 +243,10 @@ public class TourGuideService {
 	private Date getRandomTime() {
 		LocalDateTime localDateTime = LocalDateTime.now().minusDays(new Random().nextInt(30));
 	    return Date.from(localDateTime.toInstant(ZoneOffset.UTC));
+	}
+
+	public ExecutorService getExecutorService() {
+		return executorService;
 	}
 	
 }

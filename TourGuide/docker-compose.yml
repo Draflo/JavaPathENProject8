@@ -1,0 +1,37 @@
+version: '3'
+services:
+  gpsutil:
+    image: gpsutil
+    container_name: gpsutil
+    ports:
+      - "8881:8881"
+    networks:
+      - default
+
+  rewardscentral:
+    image: rewardscentral
+    container_name: rewardscentral
+    ports:
+      - "8882:8882"
+    networks:
+      - default
+
+  trippricer:
+    image: trippricer
+    container_name: trippricer
+    ports:
+      - "8883:8883"
+    networks:
+      - default
+
+  tourguide:
+    depends_on:
+      - gpsutil
+      - rewardscentral
+      - trippricer
+    image: tourguide
+    container_name: tourguide
+    ports:
+      - "8080:8080"
+    networks:
+      - default
