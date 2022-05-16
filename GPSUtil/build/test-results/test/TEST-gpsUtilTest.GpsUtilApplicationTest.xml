@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="gpsUtilTest.GpsUtilApplicationTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-05-16T10:15:53" hostname="Draflosword-Fixe" time="8.127">
+  <properties/>
+  <testcase name="mainTest" classname="gpsUtilTest.GpsUtilApplicationTest" time="8.127"/>
+  <testcase name="contextLoads" classname="gpsUtilTest.GpsUtilApplicationTest" time="0.0"/>
+  <system-out><![CDATA[
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.1.6.RELEASE)
+
+2022-05-16 12:15:56.517  INFO 17384 --- [    Test worker] gpsUtil.GpsUtilApplication               : No active profile set, falling back to default profiles: default
+2022-05-16 12:15:58.256  INFO 17384 --- [    Test worker] o.s.cloud.context.scope.GenericScope     : BeanFactory id=a5705f50-22b6-3941-9146-5dc98bf8f57e
+2022-05-16 12:15:58.924  INFO 17384 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2022-05-16 12:15:58.972  INFO 17384 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-05-16 12:15:58.973  INFO 17384 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.21]
+2022-05-16 12:15:59.266  INFO 17384 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-05-16 12:15:59.267  INFO 17384 --- [    Test worker] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2714 ms
+2022-05-16 12:15:59.988  WARN 17384 --- [    Test worker] o.s.c.n.a.ArchaiusAutoConfiguration      : No spring.application.name found, defaulting to 'application'
+2022-05-16 12:15:59.996  WARN 17384 --- [    Test worker] c.n.c.sources.URLConfigurationSource     : No URLs will be polled as dynamic configuration sources.
+2022-05-16 12:15:59.997  INFO 17384 --- [    Test worker] c.n.c.sources.URLConfigurationSource     : To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2022-05-16 12:16:00.010  WARN 17384 --- [    Test worker] c.n.c.sources.URLConfigurationSource     : No URLs will be polled as dynamic configuration sources.
+2022-05-16 12:16:00.011  INFO 17384 --- [    Test worker] c.n.c.sources.URLConfigurationSource     : To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2022-05-16 12:16:00.369  INFO 17384 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-05-16 12:16:01.172  INFO 17384 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2022-05-16 12:16:01.368  INFO 17384 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2022-05-16 12:16:01.546  INFO 17384 --- [    Test worker] gpsUtil.GpsUtilApplication               : Started GpsUtilApplication in 7.68 seconds (JVM running for 9.713)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
