@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TripPricerTest.TripPricerApplicationTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-04-26T16:25:26" hostname="Draflosword-Fixe" time="6.161">
+  <properties/>
+  <testcase name="testMain" classname="TripPricerTest.TripPricerApplicationTest" time="6.161"/>
+  <testcase name="contextLoad" classname="TripPricerTest.TripPricerApplicationTest" time="0.0"/>
+  <system-out><![CDATA[
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.1.6.RELEASE)
+
+2022-04-26 18:25:27.413  INFO 16432 --- [    Test worker] tripPricer.TripPricerApplication         : Starting TripPricerApplication on Draflosword-Fixe with PID 16432 (started by Draflosword in H:\Users\Draflosword\Documents\Taff\Java\TripPricer)
+2022-04-26 18:25:27.420  INFO 16432 --- [    Test worker] tripPricer.TripPricerApplication         : No active profile set, falling back to default profiles: default
+2022-04-26 18:25:30.350  INFO 16432 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
+2022-04-26 18:25:30.418  INFO 16432 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-04-26 18:25:30.419  INFO 16432 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.21]
+2022-04-26 18:25:30.676  INFO 16432 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-04-26 18:25:30.677  INFO 16432 --- [    Test worker] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3176 ms
+2022-04-26 18:25:31.601  INFO 16432 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-04-26 18:25:32.121  INFO 16432 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2022-04-26 18:25:32.218  INFO 16432 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8083 (http) with context path ''
+2022-04-26 18:25:32.226  INFO 16432 --- [    Test worker] tripPricer.TripPricerApplication         : Started TripPricerApplication in 5.724 seconds (JVM running for 7.439)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
