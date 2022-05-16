@@ -21,7 +21,7 @@ import tourGuide.helper.InternalTestHelper;
 import tourGuide.service.RewardsService;
 import tourGuide.service.TourGuideService;
 import tourGuide.user.User;
-import tripPricer.Provider;
+import tourGuide.classes.Provider;
 
 public class TestTourGuideService {
 	

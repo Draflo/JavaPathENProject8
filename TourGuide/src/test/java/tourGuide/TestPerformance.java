@@ -12,6 +12,8 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.time.StopWatch;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 
 import feign.Feign;
@@ -48,9 +50,9 @@ public class TestPerformance {
 	
 	
 	private GPSUtilFeignClient gpsUtilFeignClient;
-	
-	
 	private RewardsService rewardsService;
+	
+	private Logger logger = LoggerFactory.getLogger(TestPerformance.class);
 	
 	@Before
 	public void setUp() {
@@ -64,7 +66,7 @@ public class TestPerformance {
 	public void highVolumeTrackLocation() throws InterruptedException {
 		
 		// Users should be incremented up to 100,000, and test finishes within 15 minutes
-		InternalTestHelper.setInternalUserNumber(100000);
+		InternalTestHelper.setInternalUserNumber(100);
 		TourGuideService tourGuideService = new TourGuideService(gpsUtilFeignClient, rewardsService);
 
 		List<User> allUsers = new ArrayList<>();
@@ -93,11 +95,9 @@ public class TestPerformance {
 	public void highVolumeGetRewards() throws InterruptedException {
 
 		// Users should be incremented up to 100,000, and test finishes within 20 minutes
-		InternalTestHelper.setInternalUserNumber(100000);
+		InternalTestHelper.setInternalUserNumber(100);
 		
 		TourGuideService tourGuideService = new TourGuideService(gpsUtilFeignClient, rewardsService);
-		
-		tourGuideService.tracker.stopTracking();
 		
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
@@ -107,19 +107,19 @@ public class TestPerformance {
 	    Location attractionLocation = new Location(attraction.getLatitude(), attraction.getLongitude());
 		List<User> allUsers = new ArrayList<>();
 		allUsers = tourGuideService.getAllUsers();
-		allUsers.forEach(u -> u.addToVisitedLocations(new VisitedLocation(u.getUserId(), attractionLocation, new Date())));
-	     
-	    allUsers.forEach(u -> rewardsService.calculateRewards(u));
-	    
-	    ExecutorService executorService = rewardsService.getExecutorService();
-	    executorService.shutdown();
-	    executorService.awaitTermination(21, TimeUnit.MINUTES);
+		allUsers.forEach(u -> {
+			u.addToVisitedLocations(new VisitedLocation(u.getUserId(), attractionLocation, new Date()));
+			
+		});
+		logger.debug("CP");
+		
+		tourGuideService.bulkCalculateReward(allUsers);
 	    
 		for(User user : allUsers) {
-			assertTrue(user.getUserRewards().size() > 0);
+				assertTrue(user.getUserRewards().size() > 0);
 		}
 		stopWatch.stop();
-		
+		tourGuideService.tracker.stopTracking();
 
 		System.out.println("highVolumeGetRewards: Time Elapsed: " + TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()) + " seconds."); 
 		assertTrue(TimeUnit.MINUTES.toSeconds(20) >= TimeUnit.MILLISECONDS.toSeconds(stopWatch.getTime()));

@@ -2,28 +2,30 @@
 
 public class Location {
 	
-	private Double longitude;
-	private Double latitude;
+	public Double longitude;
+	public Double latitude;
 
-<span class="nc" id="L8">    public Location() {</span>
+<span class="fc" id="L8">    public Location(Double latitude, Double longitude) {</span>
+<span class="fc" id="L9">    	this.latitude = latitude;</span>
+<span class="fc" id="L10">    	this.longitude = longitude;</span>
        
-<span class="nc" id="L10">    }</span>
+<span class="fc" id="L12">    }</span>
     
     public Double getLongitude() {
-<span class="nc" id="L13">		return longitude;</span>
+<span class="fc" id="L15">		return longitude;</span>
 	}
 
 	public void setLongitude(Double longitude) {
-<span class="nc" id="L17">		this.longitude = longitude;</span>
-<span class="nc" id="L18">	}</span>
+<span class="nc" id="L19">		this.longitude = longitude;</span>
+<span class="nc" id="L20">	}</span>
 
 	public Double getLatitude() {
-<span class="nc" id="L21">		return latitude;</span>
+<span class="fc" id="L23">		return latitude;</span>
 	}
 
 	public void setLatitude(Double latitude) {
-<span class="nc" id="L25">		this.latitude = latitude;</span>
-<span class="nc" id="L26">	}</span>
+<span class="nc" id="L27">		this.latitude = latitude;</span>
+<span class="nc" id="L28">	}</span>
 
 
 }

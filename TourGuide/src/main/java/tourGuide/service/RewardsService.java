@@ -6,11 +6,11 @@ import java.util.concurrent.Executors;
 
 import org.springframework.stereotype.Service;
 
+import tourGuide.GPSUtilFeignClient;
+import tourGuide.RewardsCentralFeignClient;
 import tourGuide.classes.Attraction;
 import tourGuide.classes.Location;
 import tourGuide.classes.VisitedLocation;
-import tourGuide.GPSUtilFeignClient;
-import tourGuide.RewardsCentralFeignClient;
 import tourGuide.user.User;
 import tourGuide.user.UserReward;
 
@@ -24,7 +24,7 @@ public class RewardsService {
 	private int attractionProximityRange = 200;
 	private final GPSUtilFeignClient gpsUtil;
 	private final RewardsCentralFeignClient rewardsCentral;
-	private final ExecutorService executorService = Executors.newFixedThreadPool(10000);
+	private final ExecutorService executorService = Executors.newFixedThreadPool(100);
 	
 	public RewardsService(GPSUtilFeignClient gpsUtil, RewardsCentralFeignClient rewardCentral) {
 		this.gpsUtil = gpsUtil;
@@ -48,13 +48,14 @@ public class RewardsService {
 			for(Attraction attraction : attractions) {
 				if(user.getUserRewards().stream().filter(r -> r.attraction.attractionName.equals(attraction.attractionName)).count() == 0) {
 					if(nearAttraction(visitedLocation, attraction)) {
-						executorService.submit(() -> {
+						
 						user.addUserReward(new UserReward(visitedLocation, attraction, getRewardPoints(attraction, user)));
-						});
+						
 					}
 				}
 			}
 		}
+		
 	}
 	
 	public boolean isWithinAttractionProximity(Attraction attraction, Location location) {

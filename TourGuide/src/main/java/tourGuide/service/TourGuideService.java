@@ -16,35 +16,39 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tourGuide.GPSUtilFeignClient;
+import tourGuide.TripPricerFeignClient;
 import tourGuide.classes.Attraction;
 import tourGuide.classes.AttractionDTO;
 import tourGuide.classes.Location;
+import tourGuide.classes.Provider;
 import tourGuide.classes.UserLastLocation;
 import tourGuide.classes.VisitedLocation;
 import tourGuide.helper.InternalTestHelper;
 import tourGuide.tracker.Tracker;
 import tourGuide.user.User;
 import tourGuide.user.UserReward;
-import tripPricer.Provider;
-import tripPricer.TripPricer;
 
 @Service
 public class TourGuideService {
 	private Logger logger = LoggerFactory.getLogger(TourGuideService.class);
 	private final GPSUtilFeignClient gpsUtil;
 	private final RewardsService rewardsService;
-	private final TripPricer tripPricer = new TripPricer();
 	public final Tracker tracker;
 	boolean testMode = true;
-	private final ExecutorService executorService = Executors.newFixedThreadPool(10000) ;
+	private final ExecutorService executorService = Executors.newFixedThreadPool(200);
+	
+	@Autowired
+	private TripPricerFeignClient tripPricer;
 	
 	public TourGuideService(GPSUtilFeignClient gpsUtil, RewardsService rewardsService) {
 		this.gpsUtil = gpsUtil;
@@ -95,7 +99,7 @@ public class TourGuideService {
 	
 	public List<Provider> getTripDeals(User user) {
 		int cumulatativeRewardPoints = user.getUserRewards().stream().mapToInt(i -> i.getRewardPoints()).sum();
-		List<Provider> providers = tripPricer.getPrice(tripPricerApiKey, user.getUserId(), user.getUserPreferences().getNumberOfAdults(), 
+		List<Provider> providers = tripPricer.getTripDeals(tripPricerApiKey, user.getUserId().toString(), user.getUserPreferences().getNumberOfAdults(), 
 				user.getUserPreferences().getNumberOfChildren(), user.getUserPreferences().getTripDuration(), cumulatativeRewardPoints);
 		user.setTripDeals(providers);
 		return providers;
@@ -172,6 +176,21 @@ public class TourGuideService {
 		}
 		
 		return listLastLocations;
+	}
+	
+	public void bulkCalculateReward(List<User> users) {
+		ExecutorService executorService = Executors.newFixedThreadPool(100);
+		users.forEach(user -> 
+		executorService.submit(new Thread(() -> rewardsService.calculateRewards(user))));
+		
+		executorService.shutdown();
+		try {
+			executorService.awaitTermination(20, TimeUnit.MINUTES);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private void addShutDownHook() {

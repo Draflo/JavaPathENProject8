@@ -5,76 +5,135 @@ import javax.money.Monetary;
 
 import org.javamoney.moneta.Money;
 
+import tourGuide.classes.UserPreferencesDTO;
+
 
 public class UserPreferences {
 	
-<span class="fc" id="L11">	private int attractionProximity = Integer.MAX_VALUE;</span>
-<span class="fc" id="L12">	private CurrencyUnit currency = Monetary.getCurrency(&quot;USD&quot;);</span>
-<span class="fc" id="L13">	private Money lowerPricePoint = Money.of(0, currency);</span>
-<span class="fc" id="L14">	private Money highPricePoint = Money.of(Integer.MAX_VALUE, currency);</span>
-<span class="fc" id="L15">	private int tripDuration = 1;</span>
-<span class="fc" id="L16">	private int ticketQuantity = 1;</span>
-<span class="fc" id="L17">	private int numberOfAdults = 1;</span>
-<span class="fc" id="L18">	private int numberOfChildren = 0;</span>
+<span class="fc" id="L13">	private int attractionProximity = Integer.MAX_VALUE;</span>
+<span class="fc" id="L14">	private CurrencyUnit currency = Monetary.getCurrency(&quot;USD&quot;);</span>
+<span class="fc" id="L15">	private Money lowerPricePoint = Money.of(0, currency);</span>
+<span class="fc" id="L16">	private Money highPricePoint = Money.of(Integer.MAX_VALUE, currency);</span>
+<span class="fc" id="L17">	private int tripDuration = 1;</span>
+<span class="fc" id="L18">	private int ticketQuantity = 1;</span>
+<span class="fc" id="L19">	private int numberOfAdults = 1;</span>
+<span class="fc" id="L20">	private int numberOfChildren = 0;</span>
 	
-<span class="fc" id="L20">	public UserPreferences() {</span>
-<span class="fc" id="L21">	}</span>
+<span class="fc" id="L22">	public UserPreferences() {</span>
+<span class="fc" id="L23">	}</span>
 	
 	public void setAttractionProximity(int attractionProximity) {
-<span class="nc" id="L24">		this.attractionProximity = attractionProximity;</span>
-<span class="nc" id="L25">	}</span>
+<span class="fc" id="L26">		this.attractionProximity = attractionProximity;</span>
+<span class="fc" id="L27">	}</span>
 	
 	public int getAttractionProximity() {
-<span class="nc" id="L28">		return attractionProximity;</span>
+<span class="nc" id="L30">		return attractionProximity;</span>
 	}
 	
 	public Money getLowerPricePoint() {
-<span class="nc" id="L32">		return lowerPricePoint;</span>
+<span class="nc" id="L34">		return lowerPricePoint;</span>
 	}
 
 	public void setLowerPricePoint(Money lowerPricePoint) {
-<span class="nc" id="L36">		this.lowerPricePoint = lowerPricePoint;</span>
-<span class="nc" id="L37">	}</span>
+<span class="fc" id="L38">		this.lowerPricePoint = lowerPricePoint;</span>
+<span class="fc" id="L39">	}</span>
 
 	public Money getHighPricePoint() {
-<span class="nc" id="L40">		return highPricePoint;</span>
+<span class="nc" id="L42">		return highPricePoint;</span>
 	}
 
 	public void setHighPricePoint(Money highPricePoint) {
-<span class="nc" id="L44">		this.highPricePoint = highPricePoint;</span>
-<span class="nc" id="L45">	}</span>
+<span class="nc" id="L46">		this.highPricePoint = highPricePoint;</span>
+<span class="nc" id="L47">	}</span>
 	
 	public int getTripDuration() {
-<span class="nc" id="L48">		return tripDuration;</span>
+<span class="nc" id="L50">		return tripDuration;</span>
 	}
 
 	public void setTripDuration(int tripDuration) {
-<span class="nc" id="L52">		this.tripDuration = tripDuration;</span>
-<span class="nc" id="L53">	}</span>
+<span class="fc" id="L54">		this.tripDuration = tripDuration;</span>
+<span class="fc" id="L55">	}</span>
 
 	public int getTicketQuantity() {
-<span class="nc" id="L56">		return ticketQuantity;</span>
+<span class="nc" id="L58">		return ticketQuantity;</span>
 	}
 
 	public void setTicketQuantity(int ticketQuantity) {
-<span class="nc" id="L60">		this.ticketQuantity = ticketQuantity;</span>
-<span class="nc" id="L61">	}</span>
+<span class="fc" id="L62">		this.ticketQuantity = ticketQuantity;</span>
+<span class="fc" id="L63">	}</span>
 	
 	public int getNumberOfAdults() {
-<span class="nc" id="L64">		return numberOfAdults;</span>
+<span class="nc" id="L66">		return numberOfAdults;</span>
 	}
 
 	public void setNumberOfAdults(int numberOfAdults) {
-<span class="nc" id="L68">		this.numberOfAdults = numberOfAdults;</span>
-<span class="nc" id="L69">	}</span>
+<span class="fc" id="L70">		this.numberOfAdults = numberOfAdults;</span>
+<span class="fc" id="L71">	}</span>
 
 	public int getNumberOfChildren() {
-<span class="nc" id="L72">		return numberOfChildren;</span>
+<span class="nc" id="L74">		return numberOfChildren;</span>
 	}
 
 	public void setNumberOfChildren(int numberOfChildren) {
-<span class="nc" id="L76">		this.numberOfChildren = numberOfChildren;</span>
-<span class="nc" id="L77">	}</span>
+<span class="fc" id="L78">		this.numberOfChildren = numberOfChildren;</span>
+<span class="fc" id="L79">	}</span>
+	
+	public CurrencyUnit getCurrency() {
+<span class="nc" id="L82">		return currency;</span>
+	}
+
+	public void setCurrency(CurrencyUnit currency) {
+<span class="fc" id="L86">		this.currency = currency;</span>
+<span class="fc" id="L87">	}</span>
+	
+	
+	public void mapTo(UserPreferencesDTO userPreferencesDTO, String userName) {
+<span class="fc" id="L91">		userPreferencesDTO.setUserName(userName);</span>
+<span class="fc" id="L92">		userPreferencesDTO.setCurrency(currency.getCurrencyCode());</span>
+<span class="fc" id="L93">		userPreferencesDTO.setAttractionProximity(attractionProximity);</span>
+<span class="fc" id="L94">		userPreferencesDTO.setHighPricePoint(highPricePoint.getNumber().doubleValue());</span>
+<span class="fc" id="L95">		userPreferencesDTO.setLowerPricePoint(lowerPricePoint.getNumber().doubleValue());</span>
+<span class="fc" id="L96">		userPreferencesDTO.setNumberOfAdults(numberOfAdults);</span>
+<span class="fc" id="L97">		userPreferencesDTO.setNumberOfChildren(numberOfChildren);</span>
+<span class="fc" id="L98">		userPreferencesDTO.setTicketQuantity(ticketQuantity);</span>
+<span class="fc" id="L99">		userPreferencesDTO.setTripDuration(tripDuration);</span>
+		
+<span class="fc" id="L101">	}</span>
+	
+	public void mapFrom(UserPreferencesDTO dto)
+	{
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">		if(dto.getCurrency() != null) {</span>
+<span class="fc" id="L106">			setCurrency(Monetary.getCurrency(dto.getCurrency()));</span>
+		}
+		
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">		if(dto.getAttractionProximity() != null) {</span>
+<span class="fc" id="L110">			setAttractionProximity(dto.getAttractionProximity());</span>
+		}
+		
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">		if(dto.getHighPricePoint() != null) {</span>
+<span class="nc" id="L114">			setHighPricePoint(Money.of(dto.getHighPricePoint(), currency));</span>
+		}
+		
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">		if(dto.getLowerPricePoint() != null) {</span>
+<span class="fc" id="L118">			setLowerPricePoint(Money.of(dto.getLowerPricePoint(), currency));</span>
+		}
+		
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">		if(dto.getNumberOfAdults() != null) {</span>
+<span class="fc" id="L122">			setNumberOfAdults(dto.getNumberOfAdults());</span>
+		}
+		
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">		if(dto.getNumberOfChildren() != null) {</span>
+<span class="fc" id="L126">			setNumberOfChildren(dto.getNumberOfChildren());</span>
+		}
+		
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">		if(dto.getTicketQuantity() != null) {</span>
+<span class="fc" id="L130">			setTicketQuantity(dto.getTicketQuantity());</span>
+		}
+		
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">		if(dto.getTripDuration() != null) {</span>
+<span class="fc" id="L134">			setTripDuration(dto.getTripDuration());</span>
+		}
+<span class="fc" id="L136">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
